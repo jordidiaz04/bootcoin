@@ -11,6 +11,8 @@ import lombok.NoArgsConstructor;
 import org.bson.types.ObjectId;
 import org.springframework.data.annotation.Id;
 import org.springframework.data.mongodb.core.mapping.Document;
+import org.springframework.data.mongodb.core.mapping.Field;
+import org.springframework.data.mongodb.core.mapping.FieldType;
 
 /**
  * Bootcoin object.
@@ -28,6 +30,7 @@ public class Bootcoin {
   private String phone;
   private String email;
   private int profile;
+  @Field(targetType = FieldType.DECIMAL128)
   private BigDecimal balance;
   @JsonSerialize(using = ToStringSerializer.class)
   private ObjectId idAccount;
@@ -38,6 +41,10 @@ public class Bootcoin {
    * @param request BootcoinRequest object
    */
   public Bootcoin(BootcoinRequest request) {
-
+    documentNumber = request.getDocumentNumber();
+    phone = request.getPhone();
+    email = request.getEmail();
+    profile = request.getProfile();
+    balance = BigDecimal.ZERO;
   }
 }

@@ -1,10 +1,10 @@
 package com.nttdata.bootcoin.dto.response;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
+import java.math.BigDecimal;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import java.math.BigDecimal;
 
 /**
  * TypeAccount object.

@@ -35,9 +35,10 @@ public class BootcoinServiceImpl implements BootcoinService {
   @Override
   public Mono<Bootcoin> create(BootcoinRequest request) {
     return bootcoinRepository.findByDocumentNumber(request.getDocumentNumber())
-        .doOnNext(res -> Mono
-            .error(new CustomInformationException("A bootcoin account with "
-                + "that document number already exists")))
+        .doOnNext(res -> {
+          throw new CustomInformationException("A bootcoin account with "
+              + "that document number already exists");
+        })
         .switchIfEmpty(validateInformation(request)
             .flatMap(req -> setBootcoin(req)
                 .flatMap(bootcoin -> bootcoinRepository.save(bootcoin)
@@ -61,9 +62,10 @@ public class BootcoinServiceImpl implements BootcoinService {
     Mono<Bootcoin> monoBootcoin = Mono.just(new Bootcoin(request));
 
     if (request.getProfile() == SELLER) {
-      return monoBootcoin.
-          flatMap(bootcoin -> accountService
-              .findByNumberAndClientDocumentNumber(request.getAccountNumber(), request.getDocumentNumber())
+      return monoBootcoin
+          .flatMap(bootcoin -> accountService
+              .findByNumberAndClientDocumentNumber(request.getAccountNumber(),
+                  request.getDocumentNumber())
               .doOnNext(ac -> bootcoin.setIdAccount(new ObjectId(ac.getId()))))
           .then(monoBootcoin);
     } else {
