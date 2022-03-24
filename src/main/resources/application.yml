@@ -1,9 +1,9 @@
 server:
-  port: '8087'
+  port: '8082'
 
 spring:
   profiles:
-    active: local
+    active: @activatedProperties@
   application:
     name: bootcoin
 
