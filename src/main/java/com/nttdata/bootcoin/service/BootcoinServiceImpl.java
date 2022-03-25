@@ -52,7 +52,7 @@ public class BootcoinServiceImpl implements BootcoinService {
   private Mono<BootcoinRequest> validateInformation(BootcoinRequest request) {
     if (request.getProfile() == SELLER && StringUtils.isBlank(request.getAccountNumber())) {
       return Mono.error(new CustomInformationException("The seller profile "
-          + "requires an account number"));
+          + "requires the field accountNumber"));
     }
 
     return Mono.just(request);
